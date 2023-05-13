@@ -21,12 +21,12 @@ function Subtitle(props: { children: ReactNode }) {
 
 export default function LoginRoute() {
   return (
-    <div className="px-8 mt-28">
+    <div className="px-8 mt-20">
       <div className="flex flex-col items-center gap-3 mb-4">
         <Image src={petPlus} alt="" width={100} height={100} />
         <Title>PetPlus</Title>
       </div>
-      <div className="flex flex-col items-center gap-4 bg-cyan-700 rounded-lg py-5">
+      <div className="flex flex-col items-center gap-4 bg-grey-500 rounded-lg py-5">
         <div className="flex items-center w-24 h-24 bg-cyan-100 rounded-full"></div>
 
         <Subtitle>New Account</Subtitle>
@@ -34,14 +34,14 @@ export default function LoginRoute() {
           <form className="w-full px-4">
             <input
               type="text"
-              className="rounded-lg bg-cyan-700 border-rose-400 border-4 py-2 px-4 text-rose-400 block w-full placeholder:text-rose-400"
+              className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
               placeholder="First Name"
             />
           </form>
           <form className="w-full px-4">
             <input
               type="text"
-              className="rounded-lg bg-cyan-700 border-rose-400 border-4 py-2 px-4 text-rose-400 block w-full placeholder:text-rose-400"
+              className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
               placeholder="Last Name"
             />
           </form>
@@ -49,21 +49,21 @@ export default function LoginRoute() {
         <form className="w-full px-4">
           <input
             type="text"
-            className="rounded-lg bg-cyan-700 border-rose-400 border-4 py-2 px-4 text-rose-400 block w-full placeholder:text-rose-400"
+            className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
             placeholder="E-mail"
           />
         </form>
         <form className="w-full px-4">
           <input
             type="text"
-            className="rounded-lg bg-cyan-700 border-rose-400 border-4 py-2 px-4 text-rose-400 block w-full placeholder:text-rose-400"
+            className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
             placeholder="Password"
           />
         </form>
         <form className="w-full px-4">
           <input
             type="text"
-            className="rounded-lg bg-cyan-700 border-rose-400 border-4 py-2 px-4 text-rose-400 block w-full placeholder:text-rose-400"
+            className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
             placeholder="Confirm Password"
           />
         </form>
