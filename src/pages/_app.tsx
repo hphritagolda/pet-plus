@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
-import { Rubik } from "next/font/google";
+import "@shoelace-style/shoelace/dist/themes/light.css";
 import type { AppProps } from "next/app";
+import { Rubik } from "next/font/google";
 
 const rubik = Rubik({
   weight: ["400", "700"],

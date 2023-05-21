@@ -1,8 +1,23 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Image from "next/image";
 import petPlus from "@/assets/petplus.svg";
 import andrewProfile from "@/assets/andrew.png";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+// How to import shoelace component
+// const SlAvatar = dynamic(
+//   () => import("@shoelace-style/shoelace/dist/react/avatar"),
+//   { ssr: false }
+// );
+// const SlButton = dynamic(
+//   () => import("@shoelace-style/shoelace/dist/react/button"),
+//   { ssr: false }
+// );
+// const SlDialog = dynamic(
+//   () => import("@shoelace-style/shoelace/dist/react/dialog"),
+//   { ssr: false }
+// );
 
 function Title(props: { children: ReactNode }) {
   return (
