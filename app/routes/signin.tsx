@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
 import petPlus from "@/assets/petplus.svg";
 import { DarkButton, LightButton } from "@/components/Buttons";
-import { LoaderArgs, json, redirect } from "@remix-run/node";
-import dbConnect from "@/mongoose.server";
 import { commitSession, getSession, validateUser } from "@/models/Auth";
+import type { LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
+import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
   return (
@@ -32,7 +32,6 @@ function Forgot(props: { children: ReactNode }) {
 
 export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
-  console.log(session.has("userId"));
 
   if (session.has("userId")) {
     // Redirect to the home page if they are already signed in.
@@ -50,8 +49,6 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export async function action({ request }: LoaderArgs) {
-  await dbConnect();
-
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");

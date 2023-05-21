@@ -1,13 +1,11 @@
-import { ReactNode } from "react";
-import petPlus from "@/assets/petplus.svg";
 import andrewProfile from "@/assets/andrew.png";
-import { Link, useLoaderData } from "@remix-run/react";
-import { generatePath } from "@remix-run/router";
-import { LoaderArgs, json, redirect } from "@remix-run/node";
-import dbConnect from "@/mongoose.server";
-import Users from "@/models/Users";
-import { getUserId, validateUser } from "@/models/Auth";
+import petPlus from "@/assets/petplus.svg";
+import { getUserId } from "@/models/Auth";
 import User from "@/models/Users";
+import type { LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
+import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
   return (
@@ -42,7 +40,6 @@ function NewPet(props: { children: ReactNode }) {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  await dbConnect();
   const userId = await getUserId(request);
   if (!userId) {
     return redirect("/signin");

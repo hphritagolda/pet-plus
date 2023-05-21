@@ -4,8 +4,6 @@ import {
   ProfileButton,
   UploadButton,
 } from "@/components/Buttons";
-import { validateUser } from "@/models/Auth";
-import dbConnect from "@/mongoose.server";
 import { ActionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { ReactNode } from "react";
@@ -19,7 +17,7 @@ function Subtitle(props: { children: ReactNode }) {
 }
 
 export async function action({}: ActionArgs) {
-  await dbConnect();
+  return {};
 }
 
 export default function NewPetPage() {

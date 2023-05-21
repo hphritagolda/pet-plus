@@ -1,8 +1,9 @@
-import { Form } from "@remix-run/react";
-import { ReactNode } from "react";
 import petPlus from "@/assets/petplus.svg";
 import { LightButton } from "@/components/Buttons";
-import { ActionArgs, redirect } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+import { Form } from "@remix-run/react";
+import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
   return (
@@ -22,8 +23,6 @@ function Subtitle(props: { children: ReactNode }) {
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
-
-  console.log(formData.get("firstName"));
 
   return redirect("/");
 }
