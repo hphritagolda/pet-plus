@@ -1,6 +1,6 @@
 // dependencies
 import mongoose, { InferSchemaType, Model } from "mongoose";
-import Utils from "../utils";
+import Utils from "../utils.server";
 import "mongoose-type-email";
 
 // schema
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   { timestamps: true }
@@ -45,8 +45,10 @@ userSchema.pre("save", function (next) {
   next();
 });
 
-type User = Model<InferSchemaType<typeof userSchema>>;
+type UserType = Model<InferSchemaType<typeof userSchema>>;
+
+const User = (mongoose.models.User ||
+  mongoose.model("User", userSchema)) as UserType;
 
 // export
-export default (mongoose.models.User ||
-  mongoose.model("User", userSchema)) as User;
+export default User;

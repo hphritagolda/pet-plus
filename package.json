@@ -1,39 +1,37 @@
 {
-  "name": "pet-plus",
-  "version": "0.1.0",
   "private": true,
-  "type": "module",
+  "sideEffects": false,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "remix build",
+    "dev": "remix dev",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "@shoelace-style/shoelace": "^2.4.0",
-    "@types/node": "18.16.3",
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.1",
-    "autoprefixer": "10.4.14",
-    "copy-webpack-plugin": "^11.0.0",
-    "eslint": "8.39.0",
-    "eslint-config-next": "13.3.2",
+    "@remix-run/css-bundle": "^1.16.1",
+    "@remix-run/node": "^1.16.1",
+    "@remix-run/react": "^1.16.1",
+    "@remix-run/vercel": "^1.16.1",
+    "@vercel/node": "^2.10.3",
+    "isbot": "^3.6.8",
     "jsonwebtoken": "^9.0.0",
-    "mongodb": "^5.5.0",
     "mongoose": "^7.2.0",
     "mongoose-type-email": "^1.1.2",
-    "next": "13.3.2",
-    "next-compose-plugins": "^2.2.1",
-    "next-transpile-modules": "^10.0.0",
-    "postcss": "8.4.23",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "swr": "^2.1.5",
-    "tailwindcss": "3.3.2",
-    "typescript": "5.0.4"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.2"
+    "@remix-run/dev": "^1.16.1",
+    "@remix-run/eslint-config": "^1.16.1",
+    "@remix-run/serve": "^1.16.1",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/react": "^18.0.35",
+    "@types/react-dom": "^18.0.11",
+    "eslint": "^8.38.0",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }

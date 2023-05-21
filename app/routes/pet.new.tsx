@@ -1,22 +1,14 @@
-import { ReactNode } from "react";
-import Image from "next/image";
-import petPlus from "@/assets/petplus.svg";
-import andrewProfile from "@/assets/andrew.png";
 import {
-  DarkButton,
-  ExitButton,
+  ExitLink,
   LightButton,
   ProfileButton,
   UploadButton,
 } from "@/components/Buttons";
-
-function Title(props: { children: ReactNode }) {
-  return (
-    <h1 className="text-center text-emerald-600 font-bold text-5xl">
-      {props.children}
-    </h1>
-  );
-}
+import { validateUser } from "@/models/Auth";
+import dbConnect from "@/mongoose.server";
+import { ActionArgs } from "@remix-run/node";
+import { Form } from "@remix-run/react";
+import { ReactNode } from "react";
 
 function Subtitle(props: { children: ReactNode }) {
   return (
@@ -26,11 +18,15 @@ function Subtitle(props: { children: ReactNode }) {
   );
 }
 
+export async function action({}: ActionArgs) {
+  await dbConnect();
+}
+
 export default function NewPetPage() {
   return (
     <div className="px-8 mt-20">
       <div className="fixed top-8 left-8 right-8 flex justify-between">
-        <ExitButton>Exit</ExitButton>
+        <ExitLink to="/" />
         <ProfileButton>User Profile</ProfileButton>
       </div>
       <div className="flex items-center justify-center h-64 ">
@@ -38,7 +34,7 @@ export default function NewPetPage() {
       </div>
       <div className="absolute inset-x-0 bottom-0 gap-4 bg-grey-500 rounded-lg py-5">
         <Subtitle>New Pet Details</Subtitle>
-        <form className="grid grid-cols-2 gap-2 px-4 mt-12">
+        <Form method="post" className="grid grid-cols-2 gap-2 px-4 mt-12">
           <input
             type="text"
             className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
@@ -85,7 +81,7 @@ export default function NewPetPage() {
             className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
             placeholder="Weight"
           />
-        </form>
+        </Form>
 
         <div className="mt-8 flex items-center justify-center">
           <LightButton>Add New Pet</LightButton>

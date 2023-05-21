@@ -1,11 +1,8 @@
+import { Form } from "@remix-run/react";
 import { ReactNode } from "react";
-import Image from "next/image";
 import petPlus from "@/assets/petplus.svg";
-import { DarkButton, LightButton } from "@/components/Buttons";
-import { FormEvent } from "react";
-import useSWRMutation from "swr/mutation";
-import { fetcher } from "@/fetcher";
-import { useRouter } from "next/router";
+import { LightButton } from "@/components/Buttons";
+import { ActionArgs, redirect } from "@remix-run/node";
 
 function Title(props: { children: ReactNode }) {
   return (
@@ -23,38 +20,19 @@ function Subtitle(props: { children: ReactNode }) {
   );
 }
 
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData();
+
+  console.log(formData.get("firstName"));
+
+  return redirect("/");
+}
+
 export default function LoginRoute() {
-  const router = useRouter();
-
-  const { data, error, isMutating, reset, trigger } = useSWRMutation(
-    "/api/signup",
-    async (url, { arg }: { arg: FormData }) => {
-      await fetch(url, {
-        method: "POST",
-        body: arg,
-      });
-    },
-    {
-      onSuccess: () => {
-        router.replace("/");
-      },
-      onError: (e) => {
-        console.log(e);
-      },
-    }
-  );
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-
-    trigger(formData);
-  };
-
   return (
     <div className="px-8 mt-20">
       <div className="flex flex-col items-center gap-3 mb-4">
-        <Image src={petPlus} alt="" width={100} height={100} />
+        <img src={petPlus} alt="pet plus" width={100} height={100} />
         <Title>PetPlus</Title>
       </div>
       <div className="flex flex-col items-center gap-4 bg-grey-500 rounded-lg py-5 max-w-lg mx-auto">
@@ -62,12 +40,7 @@ export default function LoginRoute() {
 
         <Subtitle>New Account</Subtitle>
 
-        <form
-          method="post"
-          action="/api/signup"
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-3 px-3"
-        >
+        <Form method="post" className="flex flex-col gap-3 px-3">
           <div className="flex flex-row gap-3">
             <input
               type="text"
@@ -113,7 +86,7 @@ export default function LoginRoute() {
           <div className="mt-6 mb-4 mx-auto">
             <LightButton type="submit">Create Account</LightButton>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );
