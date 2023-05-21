@@ -3,9 +3,15 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/solid";
 import { ReactNode } from "react";
 
-export function LightButton(props: { children: ReactNode }) {
+export function LightButton(props: {
+  children: ReactNode;
+  type?: "button" | "submit" | "reset" | undefined;
+}) {
   return (
-    <button className="text-center text-slate-900 rounded-full bg-pink-500 py-2 w-full max-w-xs font-bold">
+    <button
+      className="text-center text-slate-900 rounded-full bg-pink-500 py-2 px-8 w-full max-w-xs font-bold"
+      type={props.type}
+    >
       {props.children}
     </button>
   );
