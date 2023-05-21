@@ -19,13 +19,21 @@
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.2.0",
+    "mongoose-type-email": "^1.1.2",
     "next": "13.3.2",
     "next-compose-plugins": "^2.2.1",
     "next-transpile-modules": "^10.0.0",
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "swr": "^2.1.5",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2"
   }
 }
