@@ -1,6 +1,8 @@
 import petPlus from "@/assets/petplus.svg";
 import { LightButton } from "@/components/Buttons";
-import type { ActionArgs } from "@remix-run/node";
+import { commitSession, validateUser } from "@/models/Auth";
+import User from "@/models/Users";
+import { ActionArgs, json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import type { ReactNode } from "react";
@@ -24,7 +26,50 @@ function Subtitle(props: { children: ReactNode }) {
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
 
-  return redirect("/");
+  const firstName = formData.get("firstName");
+  const lastName = formData.get("lastName");
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const confirmPassword = formData.get("confirmPassword");
+
+  if (
+    typeof firstName !== "string" ||
+    typeof lastName !== "string" ||
+    typeof email !== "string" ||
+    typeof password !== "string" ||
+    typeof password !== "string"
+  ) {
+    return json({ error: "Must submit details" });
+  }
+
+  if (password !== confirmPassword) {
+    return json({ error: "Password must match" });
+  }
+
+  const newUser = new User({
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    accessLevel: 0,
+    password: password,
+  });
+  await newUser.save();
+
+  const { session, isValid } = await validateUser(request, email, password);
+
+  if (!isValid) {
+    return redirect("/signup", {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
+
+  return redirect("/", {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 }
 
 export default function LoginRoute() {

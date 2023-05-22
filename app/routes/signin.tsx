@@ -1,5 +1,6 @@
 import petPlus from "@/assets/petplus.svg";
-import { DarkButton, LightButton } from "@/components/Buttons";
+import { DarkButton, DarkButtonLink, LightButton } from "@/components/Buttons";
+import { PetplusLogo } from "@/components/PetplusLogo";
 import { commitSession, getSession, validateUser } from "@/models/Auth";
 import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
@@ -30,6 +31,7 @@ function Forgot(props: { children: ReactNode }) {
   );
 }
 
+// Cookies
 export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
@@ -48,6 +50,7 @@ export async function loader({ request }: LoaderArgs) {
   );
 }
 
+// User Sign In: Email and Password Essential
 export async function action({ request }: LoaderArgs) {
   const formData = await request.formData();
   const email = formData.get("email");
@@ -80,7 +83,7 @@ export default function LoginRoute() {
   return (
     <div className="mt-32 px-8">
       <div className="mb-4 flex flex-col items-center gap-3">
-        <img src={petPlus} alt="pet plus logo" width={100} height={100} />
+        <PetplusLogo className="h-28 w-28 text-pink-500" />
         <Title>PetPlus</Title>
       </div>
       <div className="flex flex-col items-center gap-4 rounded-lg bg-grey-500 py-5">
@@ -103,8 +106,8 @@ export default function LoginRoute() {
 
           <LightButton type="submit">Login</LightButton>
         </Form>
-        <DarkButton>Create new account</DarkButton>
-        <Forgot>Forgot your password?</Forgot>
+        <DarkButtonLink to="/signup">Create new account</DarkButtonLink>
+        {/* <Forgot>Forgot your password?</Forgot> */}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import utils from "@/utils.server";
 import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
 import User from "./Users";
+import dbConnect from "@/mongoose.server";
 
 type SessionData = {
   userId: string;
@@ -30,6 +31,7 @@ export const validateUser = async (
   email: string,
   password: string
 ) => {
+  await dbConnect();
   const session = await getSession(request.headers.get("Cookie"));
 
   const user = await User.findOne({ email: email });

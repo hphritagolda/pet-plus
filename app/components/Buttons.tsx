@@ -19,11 +19,32 @@ export function LightButton(props: {
   );
 }
 
+export function LightButtonLink(props: { children: ReactNode; to: string }) {
+  return (
+    <Link
+      to={props.to}
+      className="w-full max-w-xs rounded-full bg-pink-500 px-8 py-2 text-center font-bold text-slate-900"
+    >
+      {props.children}
+    </Link>
+  );
+}
+
 export function DarkButton(props: { children: ReactNode }) {
   return (
     <button className="w-full max-w-xs rounded-full bg-slate-900 py-2 text-center font-bold text-pink-500">
       {props.children}
     </button>
+  );
+}
+export function DarkButtonLink(props: { children: ReactNode; to: string }) {
+  return (
+    <Link
+      to={props.to}
+      className="w-full max-w-xs rounded-full bg-slate-900 py-2 text-center font-bold text-pink-500"
+    >
+      {props.children}
+    </Link>
   );
 }
 

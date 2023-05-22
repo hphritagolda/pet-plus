@@ -1,7 +1,8 @@
-import andrewProfile from "@/assets/andrew.png";
-import petPlus from "@/assets/petplus.svg";
+import { ProfileButton } from "@/components/Buttons";
+import { PetplusLogo } from "@/components/PetplusLogo";
 import { getUserId } from "@/models/Auth";
 import User from "@/models/Users";
+import dbConnect from "@/mongoose.server";
 import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -9,7 +10,7 @@ import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
   return (
-    <h1 className="text-center text-3xl font-bold text-emerald-600">
+    <h1 className="text-center text-3xl font-bold text-pink-500">
       {props.children}
     </h1>
   );
@@ -17,7 +18,7 @@ function Title(props: { children: ReactNode }) {
 
 function Subtitle(props: { children: ReactNode }) {
   return (
-    <h2 className="py-2 text-center text-2xl font-bold text-amber-300">
+    <h2 className="py-2 text-center text-2xl font-bold text-yellow-200">
       {props.children}
     </h2>
   );
@@ -25,7 +26,7 @@ function Subtitle(props: { children: ReactNode }) {
 
 function Name(props: { children: ReactNode }) {
   return (
-    <h3 className="py-1 text-center text-xl font-bold text-rose-400">
+    <h3 className="py-1 text-center text-xl font-bold text-pink-500">
       {props.children}
     </h3>
   );
@@ -41,9 +42,12 @@ function NewPet(props: { children: ReactNode }) {
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
+
   if (!userId) {
     return redirect("/signin");
   }
+
+  await dbConnect();
 
   const user = await User.findById(userId);
 
@@ -61,20 +65,14 @@ export default function LoginRoute() {
     <div className="mt-6 px-8">
       <div className="mb-4 flex flex-col items-center gap-3">
         <div className="mb-7 flex flex-row items-center gap-16">
-          <img src={petPlus} alt="" width={50} height={50} />
+          <PetplusLogo className="h-12 w-12 text-pink-500"></PetplusLogo>
           <Title>PetPlus</Title>
-          <img
-            src={andrewProfile}
-            alt=""
-            width={50}
-            height={50}
-            className="h-10 w-10 rounded-full object-cover"
-          />
+          <ProfileButton>User Profile</ProfileButton>
         </div>
         <Subtitle>Welcome, {user.firstName}!</Subtitle>
         <Link
           to="/pet/new"
-          className="items-center rounded-lg bg-cyan-400 px-7 py-5 text-center text-4xl font-bold text-cyan-50"
+          className="items-center rounded-lg bg-grey-500 px-7 py-5 text-center text-4xl font-bold text-blue-500"
         >
           +
         </Link>
