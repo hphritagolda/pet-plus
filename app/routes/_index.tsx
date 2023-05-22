@@ -9,7 +9,7 @@ import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
   return (
-    <h1 className="text-center text-emerald-600 font-bold text-3xl">
+    <h1 className="text-center text-3xl font-bold text-emerald-600">
       {props.children}
     </h1>
   );
@@ -17,7 +17,7 @@ function Title(props: { children: ReactNode }) {
 
 function Subtitle(props: { children: ReactNode }) {
   return (
-    <h2 className="text-center text-amber-300 font-bold text-2xl py-2">
+    <h2 className="py-2 text-center text-2xl font-bold text-amber-300">
       {props.children}
     </h2>
   );
@@ -25,7 +25,7 @@ function Subtitle(props: { children: ReactNode }) {
 
 function Name(props: { children: ReactNode }) {
   return (
-    <h3 className="text-center text-rose-400 font-bold text-xl py-1">
+    <h3 className="py-1 text-center text-xl font-bold text-rose-400">
       {props.children}
     </h3>
   );
@@ -33,7 +33,7 @@ function Name(props: { children: ReactNode }) {
 
 function NewPet(props: { children: ReactNode }) {
   return (
-    <button className="text-center text-cyan-500 font-bold text-xl rounded-md bg-slate-300 py-4 w-20">
+    <button className="w-20 rounded-md bg-slate-300 py-4 text-center text-xl font-bold text-cyan-500">
       {props.children}
     </button>
   );
@@ -58,9 +58,9 @@ export default function LoginRoute() {
   const { user } = useLoaderData<typeof loader>();
 
   return (
-    <div className="px-8 mt-6">
-      <div className="flex flex-col items-center gap-3 mb-4">
-        <div className="flex flex-row items-center gap-16 mb-7">
+    <div className="mt-6 px-8">
+      <div className="mb-4 flex flex-col items-center gap-3">
+        <div className="mb-7 flex flex-row items-center gap-16">
           <img src={petPlus} alt="" width={50} height={50} />
           <Title>PetPlus</Title>
           <img
@@ -68,13 +68,13 @@ export default function LoginRoute() {
             alt=""
             width={50}
             height={50}
-            className="rounded-full w-10 h-10 object-cover"
+            className="h-10 w-10 rounded-full object-cover"
           />
         </div>
         <Subtitle>Welcome, {user.firstName}!</Subtitle>
         <Link
           to="/pet/new"
-          className="bg-cyan-400 items-center rounded-lg py-5 px-7 text-center text-cyan-50 font-bold text-4xl"
+          className="items-center rounded-lg bg-cyan-400 px-7 py-5 text-center text-4xl font-bold text-cyan-50"
         >
           +
         </Link>

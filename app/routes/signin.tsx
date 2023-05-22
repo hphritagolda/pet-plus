@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
   return (
-    <h1 className="text-center text-pink-500 font-bold text-5xl">
+    <h1 className="text-center text-5xl font-bold text-pink-500">
       {props.children}
     </h1>
   );
@@ -16,7 +16,7 @@ function Title(props: { children: ReactNode }) {
 
 function Subtitle(props: { children: ReactNode }) {
   return (
-    <h2 className="text-center text-yellow-200 font-bold text-3xl py-2">
+    <h2 className="py-2 text-center text-3xl font-bold text-yellow-200">
       {props.children}
     </h2>
   );
@@ -24,7 +24,7 @@ function Subtitle(props: { children: ReactNode }) {
 
 function Forgot(props: { children: ReactNode }) {
   return (
-    <h4 className="text-center text-gray-50 font-normal py-4 text-decoration-line: underline">
+    <h4 className="text-decoration-line: py-4 text-center font-normal text-gray-50 underline">
       {props.children}
     </h4>
   );
@@ -78,24 +78,24 @@ export default function LoginRoute() {
   const { error } = useLoaderData<typeof loader>();
 
   return (
-    <div className="px-8 mt-32">
-      <div className="flex flex-col items-center gap-3 mb-4">
+    <div className="mt-32 px-8">
+      <div className="mb-4 flex flex-col items-center gap-3">
         <img src={petPlus} alt="pet plus logo" width={100} height={100} />
         <Title>PetPlus</Title>
       </div>
-      <div className="flex flex-col items-center gap-4 bg-grey-500 rounded-lg py-5">
+      <div className="flex flex-col items-center gap-4 rounded-lg bg-grey-500 py-5">
         <Subtitle>Log In</Subtitle>
-        <Form method="post" className="w-full px-4 flex flex-col gap-4">
+        <Form method="post" className="flex w-full flex-col gap-4 px-4">
           <input
             type="email"
-            className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
+            className="block w-full rounded-lg border-4 border-pink-500 bg-grey-500 px-4 py-2 text-pink-500 placeholder:text-pink-500"
             placeholder="E-mail"
             name="email"
           />
 
           <input
             type="password"
-            className="rounded-lg bg-grey-500 border-pink-500 border-4 py-2 px-4 text-pink-500 block w-full placeholder:text-pink-500"
+            className="block w-full rounded-lg border-4 border-pink-500 bg-grey-500 px-4 py-2 text-pink-500 placeholder:text-pink-500"
             placeholder="Password"
             name="password"
           />

@@ -1,22 +1,43 @@
 import { SectionTitle } from "@/components/Typography";
 import SyringeIcon from "@/assets/syringe.svg";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import ClipboardIcon from "@/assets/clipboard.svg";
+import { DeleteButton } from "@/components/Buttons";
 
-function Record() {
+function VaccinationRecord() {
   return (
-    <div className="bg-pink-50 rounded-lg p-4 text-blue-500 flex flex-row flex-nowrap items-center gap-6">
-      <div className="bg-pink-500 rounded-full p-4">
+    <div className="flex flex-row flex-nowrap items-center gap-6 rounded-lg bg-pink-50 p-4 text-blue-500">
+      <div className="rounded-full bg-pink-500 p-4">
         <img
           src={SyringeIcon}
           width={64}
           height={64}
           alt=""
-          className="w-10 h-10"
+          className="h-10 w-10"
         />
       </div>
       <div className="">
-        <p className="font-bold text-lg">Vaccination Title</p>
+        <p className="text-lg font-bold">Vaccination Title</p>
         <p className="text-sm">Vaccination Date</p>
+      </div>
+    </div>
+  );
+}
+
+function HealthRecord() {
+  return (
+    <div className="flex flex-row flex-nowrap items-center gap-6 rounded-lg bg-pink-50 p-4 text-blue-500">
+      <div className="rounded-full bg-pink-500 p-4">
+        <img
+          src={ClipboardIcon}
+          width={64}
+          height={64}
+          alt=""
+          className="h-10 w-10"
+        />
+      </div>
+      <div className="">
+        <p className="text-lg font-bold">Health Record Title</p>
+        <p className="text-sm">Health Record Date</p>
       </div>
     </div>
   );
@@ -24,15 +45,18 @@ function Record() {
 
 export default function () {
   return (
-    <div className="mt-4">
+    <div className="mt-4 flex flex-col gap-4">
       <SectionTitle>Recent Vaccinations</SectionTitle>
       <div className="">
-        <Record></Record>
+        <VaccinationRecord></VaccinationRecord>
       </div>
 
       <SectionTitle>Recent Records</SectionTitle>
       <div className="">
-        <Record></Record>
+        <HealthRecord></HealthRecord>
+      </div>
+      <div className="mt-4 self-center">
+        <DeleteButton>Delete Pet</DeleteButton>
       </div>
     </div>
   );
