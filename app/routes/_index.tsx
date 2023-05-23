@@ -1,15 +1,13 @@
-import { ProfileButton } from "@/components/Buttons";
+import poppyProfile from "@/assets/poppy.jpg";
+import { ProfileLink } from "@/components/Buttons";
 import { PetplusLogo } from "@/components/PetplusLogo";
-import { getCurrentUser, getUserId } from "@/models/Auth";
+import { getCurrentUser } from "@/models/Auth";
 import Pet from "@/models/Pets";
-import User from "@/models/Users";
-import dbConnect from "@/mongoose.server";
 import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { generatePath } from "@remix-run/router";
 import type { ReactNode } from "react";
-import poppyProfile from "@/assets/poppy.jpg";
 
 function Title(props: { children: ReactNode }) {
   return (
@@ -64,7 +62,7 @@ export default function LoginRoute() {
         <div className="mb-7 flex flex-row items-center gap-16">
           <PetplusLogo className="h-12 w-12 text-pink-500"></PetplusLogo>
           <Title>PetPlus</Title>
-          <ProfileButton>User Profile</ProfileButton>
+          <ProfileLink to="/menu"></ProfileLink>
         </div>
         <Subtitle>Welcome, {user.firstName}!</Subtitle>
         <div className="mx-auto grid w-full max-w-lg grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] justify-items-center gap-3 text-center">

@@ -1,5 +1,5 @@
 import poppyProfile from "@/assets/poppy.jpg";
-import { ExitLink, ProfileButton } from "@/components/Buttons";
+import { ExitLink, ProfileLink } from "@/components/Buttons";
 import {
   PetDescription,
   PetNameTitle,
@@ -43,7 +43,7 @@ export default function PetPage() {
     <div className="">
       <div className="fixed inset-x-8 top-8 z-10 flex justify-between md:left-[28rem]">
         <ExitLink to="/" />
-        <ProfileButton>User Profile</ProfileButton>
+        <ProfileLink to="/menu"></ProfileLink>
       </div>
       <div className="fixed inset-x-0 top-0 h-96 md:bottom-0 md:left-96 md:h-full">
         <img

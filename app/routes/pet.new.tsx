@@ -1,13 +1,11 @@
 import {
   ExitLink,
   LightButton,
-  ProfileButton,
+  ProfileLink,
   UploadButton,
 } from "@/components/Buttons";
-import { getCurrentUser, getSession } from "@/models/Auth";
+import { getCurrentUser } from "@/models/Auth";
 import Pet from "@/models/Pets";
-import User from "@/models/Users";
-import dbConnect from "@/mongoose.server";
 import type { ActionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
@@ -75,7 +73,7 @@ export default function NewPetPage() {
     <div className="mt-20 px-8">
       <div className="fixed left-8 right-8 top-8 flex justify-between">
         <ExitLink to="/" />
-        <ProfileButton>User Profile</ProfileButton>
+        <ProfileLink to="/menu"></ProfileLink>
       </div>
       <div className="flex h-64 items-center justify-center ">
         <UploadButton>Upload Photo</UploadButton>
