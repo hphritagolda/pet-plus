@@ -45,7 +45,7 @@ export default function PetPage() {
         <ExitLink to="/" />
         <ProfileLink to="/menu"></ProfileLink>
       </div>
-      <div className="fixed inset-x-0 top-0 h-96 md:bottom-0 md:left-96 md:h-full">
+      <div className="fixed inset-x-0 top-0 h-[50vh] md:bottom-0 md:left-96 md:h-full">
         <img
           src={poppyProfile}
           alt=""
@@ -63,7 +63,7 @@ export default function PetPage() {
           </PetDescription>
         </div>
       </div>
-      <div className="fixed inset-x-0 bottom-0 flex h-[60vh] flex-col flex-nowrap rounded-t-lg bg-grey-500 px-4 py-5 md:left-0 md:right-auto md:top-0 md:h-full md:max-w-md md:rounded-r-lg md:rounded-tl-none">
+      <div className="fixed inset-x-0 bottom-0 flex h-[50vh] flex-col flex-nowrap rounded-t-lg bg-grey-500 px-4 py-5 md:left-0 md:right-auto md:top-0 md:h-full md:max-w-md md:rounded-r-lg md:rounded-tl-none">
         <div className="mb-4 flex flex-row justify-between rounded-full bg-blue-500">
           <NavLink
             to="."
