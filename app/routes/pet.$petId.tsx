@@ -1,13 +1,44 @@
 import poppyProfile from "@/assets/poppy.jpg";
 import { ExitLink, ProfileButton } from "@/components/Buttons";
-import { NavLink, Outlet } from "@remix-run/react";
 import {
+  PetDescription,
   PetNameTitle,
   PetSubtitle,
-  PetDescription,
 } from "@/components/Typography";
+import { getCurrentUser } from "@/models/Auth";
+import Pet from "@/models/Pets";
+import dbConnect from "@/mongoose.server";
+import { LoaderArgs, json, redirect } from "@remix-run/node";
+import { NavLink, Outlet, useLoaderData } from "@remix-run/react";
+
+export async function loader({ params, request }: LoaderArgs) {
+  const user = await getCurrentUser(request);
+
+  if (!user) {
+    return redirect("/signin");
+  }
+
+  const petId = params.petId;
+  if (typeof petId !== "string") {
+    return redirect("/");
+  }
+
+  await dbConnect();
+
+  const pet = await Pet.findById(petId);
+  if (!pet) {
+    return redirect("/");
+  }
+
+  if (pet.user.toString() !== user.id) {
+    redirect("/");
+  }
+
+  return json({ pet: pet.toJSON() });
+}
 
 export default function PetPage() {
+  const { pet } = useLoaderData<typeof loader>();
   return (
     <div className="">
       <div className="fixed inset-x-8 top-8 z-10 flex justify-between md:left-[28rem]">
@@ -23,9 +54,13 @@ export default function PetPage() {
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
         <div className="absolute inset-x-0 bottom-16 text-center">
-          <PetNameTitle>Poppy</PetNameTitle>
-          <PetSubtitle>Golden Retriever</PetSubtitle>
-          <PetDescription>Female | 5Y.O | 56CM | 29KG</PetDescription>
+          <PetNameTitle>
+            {pet.firstName} {pet.lastName}
+          </PetNameTitle>
+          <PetSubtitle>{pet.breed}</PetSubtitle>
+          <PetDescription>
+            {pet.gender} | {pet.age} y.o | {pet.height}cm | {pet.weight}kg
+          </PetDescription>
         </div>
       </div>
       <div className="fixed inset-x-0 bottom-0 flex h-[60vh] flex-col flex-nowrap rounded-t-lg bg-grey-500 px-4 py-5 md:left-0 md:right-auto md:top-0 md:h-full md:max-w-md md:rounded-r-lg md:rounded-tl-none">

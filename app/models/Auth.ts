@@ -20,7 +20,7 @@ export const { getSession, commitSession, destroySession } =
 
       sameSite: "lax",
       httpOnly: true,
-      maxAge: 60,
+      maxAge: 3600,
       path: "/",
       secure: true,
     },
@@ -58,6 +58,16 @@ export async function getUserId(request: Request) {
   const session = await getSession(request.headers.get("Cookie"));
 
   return session.get("userId");
+}
+
+export async function getCurrentUser(request: Request) {
+  const userId = await getUserId(request);
+
+  await dbConnect();
+
+  const user = await User.findById(userId);
+
+  return user;
 }
 
 export async function logoutSession(request: Request) {

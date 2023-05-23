@@ -2,8 +2,8 @@ import petPlus from "@/assets/petplus.svg";
 import { LightButton } from "@/components/Buttons";
 import { commitSession, validateUser } from "@/models/Auth";
 import User from "@/models/Users";
-import { ActionArgs, json } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import type { ReactNode } from "react";
 

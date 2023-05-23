@@ -1,12 +1,15 @@
 import { ProfileButton } from "@/components/Buttons";
 import { PetplusLogo } from "@/components/PetplusLogo";
-import { getUserId } from "@/models/Auth";
+import { getCurrentUser, getUserId } from "@/models/Auth";
+import Pet from "@/models/Pets";
 import User from "@/models/Users";
 import dbConnect from "@/mongoose.server";
 import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import { generatePath } from "@remix-run/router";
 import type { ReactNode } from "react";
+import poppyProfile from "@/assets/poppy.jpg";
 
 function Title(props: { children: ReactNode }) {
   return (
@@ -41,25 +44,19 @@ function NewPet(props: { children: ReactNode }) {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  const userId = await getUserId(request);
-
-  if (!userId) {
-    return redirect("/signin");
-  }
-
-  await dbConnect();
-
-  const user = await User.findById(userId);
+  const user = await getCurrentUser(request);
 
   if (!user) {
     return redirect("/signin");
   }
 
-  return json({ user: user.toJSON() });
+  const pets = await Pet.find({ user });
+
+  return json({ user: user.toJSON(), pets: pets.map((pet) => pet.toJSON()) });
 }
 
 export default function LoginRoute() {
-  const { user } = useLoaderData<typeof loader>();
+  const { user, pets } = useLoaderData<typeof loader>();
 
   return (
     <div className="mt-6 px-8">
@@ -70,16 +67,35 @@ export default function LoginRoute() {
           <ProfileButton>User Profile</ProfileButton>
         </div>
         <Subtitle>Welcome, {user.firstName}!</Subtitle>
-        <Link
-          to="/pet/new"
-          className="items-center rounded-lg bg-grey-500 px-7 py-5 text-center text-4xl font-bold text-blue-500"
-        >
-          +
-        </Link>
-        <Name>Add New Pet!</Name>
-        {/* <Link to={generatePath("/pet/:petId", { petId: "123" })}>
-          Temp link to pet 123
-        </Link> */}
+        <div className="mx-auto grid w-full max-w-lg grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] justify-items-center gap-3 text-center">
+          {pets.map((pet) => {
+            return (
+              <Link
+                key={pet._id}
+                to={generatePath("/pet/:petId", { petId: pet._id })}
+                className="py-1 text-center text-lg font-bold text-pink-500"
+              >
+                <img
+                  src={poppyProfile}
+                  alt=""
+                  width={100}
+                  height={100}
+                  className="mx-auto h-24 w-24 items-center rounded-lg object-cover"
+                />
+                <span>
+                  {pet.firstName} {pet.lastName}
+                </span>
+              </Link>
+            );
+          })}
+
+          <Link to="/pet/new" className="">
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-lg bg-grey-500 text-4xl font-bold text-blue-500">
+              +
+            </div>
+            <Name>Add New Pet!</Name>
+          </Link>
+        </div>
       </div>
     </div>
   );
