@@ -1,34 +1,15 @@
-import {
-  ExitLink,
-  DeleteButton,
-  EditProfileButton,
-} from "@/components/Buttons";
+import { DarkButtonLink, LightButton } from "@/components/Buttons";
 import { getCurrentUser } from "@/models/Auth";
-import { UserIcon } from "@heroicons/react/24/solid";
-import { logoutSession } from "@/models/Auth";
-import { LoaderArgs, redirect, json, ActionArgs } from "@remix-run/node";
+import User from "@/models/Users";
+import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import type { ReactNode } from "react";
 
-function UserProfileIcon(props: { children: ReactNode }) {
+function Subtitle(props: { children: ReactNode }) {
   return (
-    <UserIcon className="inline-flex h-28 w-28 items-center justify-center rounded-full bg-pink-500 p-2 text-blue-500" />
-  );
-}
-
-function UserNameTitle(props: { children: ReactNode }) {
-  return (
-    <h4 className=" py-1 text-2xl font-bold text-yellow-200">
+    <h2 className="py-2 text-center text-3xl font-bold text-yellow-200">
       {props.children}
-    </h4>
-  );
-}
-
-function UserEmailTitle(props: { children: ReactNode }) {
-  return (
-    <h5 className=" py-1 text-lg font-medium text-lightblue-300">
-      {props.children}
-    </h5>
+    </h2>
   );
 }
 
@@ -43,25 +24,68 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 // Profile Edit
-export async function action({ request }: ActionArgs) {}
+export async function action({ request }: ActionArgs) {
+  const user = await getCurrentUser(request);
+
+  if (!user) {
+    return redirect("/signin");
+  }
+  const formData = await request.formData();
+
+  const firstName = formData.get("firstName");
+  const lastName = formData.get("lastName");
+
+  if (typeof firstName !== "string" || typeof lastName !== "string") {
+    return json({ error: "Must submit details" });
+  }
+
+  await User.updateOne(
+    { _id: user.id },
+    {
+      $set: {
+        firstName,
+        lastName,
+      },
+    }
+  ).exec();
+
+  return redirect("/menu");
+}
 
 export default function UserProfile() {
   const { user } = useLoaderData<typeof loader>();
   return (
     <div className="mt-20 px-8">
-      <div className="fixed left-8 right-8 top-8 flex justify-between">
-        <ExitLink to=".." />
+      <div className="mx-auto flex max-w-sm flex-col items-center gap-4 rounded-lg bg-grey-500 py-5">
+        <div className="flex h-24 w-24 items-center rounded-full bg-cyan-100"></div>
+        <Subtitle>Edit Profile</Subtitle>
+        <Form
+          method="post"
+          className="flex w-full flex-col items-stretch gap-3 px-6"
+        >
+          <input
+            type="text"
+            className="block w-full rounded-lg border-4 border-pink-500 bg-grey-500 px-4 py-2 text-pink-500 placeholder:text-pink-500"
+            placeholder="First Name"
+            name="firstName"
+            defaultValue={user.firstName}
+            required
+          />
+
+          <input
+            type="text"
+            className="block w-full rounded-lg border-4 border-pink-500 bg-grey-500 px-4 py-2 text-pink-500 placeholder:text-pink-500"
+            placeholder="Last Name"
+            name="lastName"
+            defaultValue={user.lastName}
+            required
+          />
+          <div className="mx-auto mt-4 flex w-40 flex-col items-center gap-2">
+            <LightButton type="submit">Save</LightButton>
+            <DarkButtonLink to="/menu">Cancel</DarkButtonLink>
+          </div>
+        </Form>
       </div>
-      <div className="flex items-center justify-center">
-        <UserProfileIcon>User Profile</UserProfileIcon>
-      </div>
-      <div className="mt-4 gap-2 text-center">
-        <UserNameTitle>
-          {user.firstName} {user.lastName}
-        </UserNameTitle>
-        <UserEmailTitle>{user.email}</UserEmailTitle>
-      </div>
-      <div className="mt-10 flex flex-col items-center gap-2"></div>
     </div>
   );
 }

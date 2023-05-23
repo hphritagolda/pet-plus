@@ -65,7 +65,10 @@ export async function getCurrentUser(request: Request) {
 
   await dbConnect();
 
-  const user = await User.findById(userId);
+  const user = await User.findById(
+    userId,
+    "firstName lastName email accessLevel"
+  );
 
   return user;
 }

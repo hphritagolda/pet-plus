@@ -1,12 +1,7 @@
-import {
-  ExitLink,
-  DeleteButton,
-  EditProfileButton,
-} from "@/components/Buttons";
-import { getCurrentUser } from "@/models/Auth";
+import { DeleteButton, ExitLink, LightButtonLink } from "@/components/Buttons";
+import { getCurrentUser, logoutSession } from "@/models/Auth";
 import { UserIcon } from "@heroicons/react/24/solid";
-import { logoutSession } from "@/models/Auth";
-import { LoaderArgs, redirect, json, ActionArgs } from "@remix-run/node";
+import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import type { ReactNode } from "react";
 
@@ -65,8 +60,8 @@ export default function UserProfile() {
         </UserNameTitle>
         <UserEmailTitle>{user.email}</UserEmailTitle>
       </div>
-      <div className="mt-10 flex flex-col items-center gap-2">
-        <EditProfileButton>Edit Profile</EditProfileButton>
+      <div className="mx-auto mt-10 flex w-40 flex-col items-center gap-2">
+        <LightButtonLink to="/profile/edit">Edit Profile</LightButtonLink>
         <Form method="post">
           <DeleteButton>Sign Out</DeleteButton>
         </Form>

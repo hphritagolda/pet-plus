@@ -11,7 +11,7 @@ export function LightButton(props: {
 }) {
   return (
     <button
-      className="w-full max-w-xs rounded-full bg-pink-500 px-8 py-2 text-center font-bold text-slate-900"
+      className="w-full rounded-full bg-pink-500 px-8 py-2 text-center font-bold text-slate-900"
       type={props.type}
     >
       {props.children}

@@ -1,5 +1,4 @@
-import petPlus from "@/assets/petplus.svg";
-import { DarkButton, DarkButtonLink, LightButton } from "@/components/Buttons";
+import { DarkButtonLink, LightButton } from "@/components/Buttons";
 import { PetplusLogo } from "@/components/PetplusLogo";
 import { commitSession, getSession, validateUser } from "@/models/Auth";
 import type { LoaderArgs } from "@remix-run/node";
@@ -86,7 +85,7 @@ export default function LoginRoute() {
         <PetplusLogo className="h-28 w-28 text-pink-500" />
         <Title>PetPlus</Title>
       </div>
-      <div className="flex flex-col items-center gap-4 rounded-lg bg-grey-500 py-5">
+      <div className="mx-auto flex max-w-sm flex-col items-center gap-4 rounded-lg bg-grey-500 py-5">
         <Subtitle>Log In</Subtitle>
         <Form method="post" className="flex w-full flex-col gap-4 px-4">
           <input
@@ -107,7 +106,6 @@ export default function LoginRoute() {
           <LightButton type="submit">Login</LightButton>
         </Form>
         <DarkButtonLink to="/signup">Create new account</DarkButtonLink>
-        {/* <Forgot>Forgot your password?</Forgot> */}
       </div>
     </div>
   );
