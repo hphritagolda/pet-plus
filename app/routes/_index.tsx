@@ -1,21 +1,14 @@
 import poppyProfile from "@/assets/poppy.jpg";
 import { ProfileLink } from "@/components/Buttons";
 import { PetplusLogo } from "@/components/PetplusLogo";
-import { getCurrentUser } from "@/models/Auth";
+import { Title } from "@/components/Typography";
+import { ADMIN_ACCESS_LEVEL, getCurrentUser } from "@/models/Auth";
 import Pet from "@/models/Pets";
 import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { generatePath } from "@remix-run/router";
 import type { ReactNode } from "react";
-
-function Title(props: { children: ReactNode }) {
-  return (
-    <h1 className="text-center text-3xl font-bold text-pink-500">
-      {props.children}
-    </h1>
-  );
-}
 
 function Subtitle(props: { children: ReactNode }) {
   return (
@@ -33,19 +26,15 @@ function Name(props: { children: ReactNode }) {
   );
 }
 
-function NewPet(props: { children: ReactNode }) {
-  return (
-    <button className="w-20 rounded-md bg-slate-300 py-4 text-center text-xl font-bold text-cyan-500">
-      {props.children}
-    </button>
-  );
-}
-
 export async function loader({ request }: LoaderArgs) {
   const user = await getCurrentUser(request);
 
   if (!user) {
     return redirect("/signin");
+  }
+
+  if (user.accessLevel === ADMIN_ACCESS_LEVEL) {
+    return redirect("/admin");
   }
 
   const pets = await Pet.find({ user });

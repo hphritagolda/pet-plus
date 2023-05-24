@@ -1,6 +1,11 @@
 import { DarkButtonLink, LightButton } from "@/components/Buttons";
 import { PetplusLogo } from "@/components/PetplusLogo";
-import { commitSession, getSession, validateUser } from "@/models/Auth";
+import {
+  ADMIN_ACCESS_LEVEL,
+  commitSession,
+  getSession,
+  validateUser,
+} from "@/models/Auth";
 import type { LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
@@ -19,14 +24,6 @@ function Subtitle(props: { children: ReactNode }) {
     <h2 className="py-2 text-center text-3xl font-bold text-yellow-200">
       {props.children}
     </h2>
-  );
-}
-
-function Forgot(props: { children: ReactNode }) {
-  return (
-    <h4 className="text-decoration-line: py-4 text-center font-normal text-gray-50 underline">
-      {props.children}
-    </h4>
   );
 }
 
@@ -59,10 +56,22 @@ export async function action({ request }: LoaderArgs) {
     return json({ error: "Must submit email and password" });
   }
 
-  const { session, isValid } = await validateUser(request, email, password);
+  const { session, isValid, user } = await validateUser(
+    request,
+    email,
+    password
+  );
 
-  if (!isValid) {
+  if (!isValid || !user) {
     return redirect("/signin", {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
+
+  if (user.accessLevel === ADMIN_ACCESS_LEVEL) {
+    return redirect("/admin", {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
