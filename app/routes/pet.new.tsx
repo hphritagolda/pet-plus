@@ -78,7 +78,7 @@ export default function NewPetPage() {
       <div className="flex h-64 items-center justify-center ">
         <UploadButton>Upload Photo</UploadButton>
       </div>
-      <div className="absolute inset-x-0 bottom-0 gap-4 rounded-lg bg-grey-500 py-5">
+      <div className="absolute inset-x-0 bottom-0 mx-auto max-w-lg gap-4 rounded-lg bg-grey-500 py-5">
         <Subtitle>New Pet Details</Subtitle>
         <Form method="post" className="mt-12 grid grid-cols-2 gap-2 px-4">
           <input
@@ -143,8 +143,10 @@ export default function NewPetPage() {
             name="weight"
             required
           />
-          <div className="mt-8 flex items-center justify-center">
-            <LightButton type="submit">Add New Pet</LightButton>
+          <div className="col-span-2 mt-8 flex items-center justify-center">
+            <div>
+              <LightButton type="submit">Add New Pet</LightButton>
+            </div>
           </div>
         </Form>
       </div>

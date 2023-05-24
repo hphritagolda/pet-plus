@@ -102,19 +102,23 @@ export default function LoginRoute() {
             className="block w-full rounded-lg border-4 border-pink-500 bg-grey-500 px-4 py-2 text-pink-500 placeholder:text-pink-500"
             placeholder="E-mail"
             name="email"
+            required
           />
 
           <input
             type="password"
             className="block w-full rounded-lg border-4 border-pink-500 bg-grey-500 px-4 py-2 text-pink-500 placeholder:text-pink-500"
             placeholder="Password"
+            required
             name="password"
           />
           {!!error && <div>{error}</div>}
 
-          <LightButton type="submit">Login</LightButton>
+          <div className="flex w-56 flex-col gap-2 self-center">
+            <LightButton type="submit">Login</LightButton>
+            <DarkButtonLink to="/signup">Create new account</DarkButtonLink>
+          </div>
         </Form>
-        <DarkButtonLink to="/signup">Create new account</DarkButtonLink>
       </div>
     </div>
   );

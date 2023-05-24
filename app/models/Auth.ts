@@ -51,7 +51,7 @@ export const validateUser = async (
   const userId = user.id as string;
   session.set("userId", userId);
 
-  return { session, isValid: true };
+  return { session, isValid: true, user };
 };
 
 export async function getUserId(request: Request) {
@@ -78,3 +78,6 @@ export async function logoutSession(request: Request) {
 
   return destroySession(session);
 }
+
+export const ADMIN_ACCESS_LEVEL = 1 as const;
+export const NORMAL_ACCESS_LEVEL = 0 as const;

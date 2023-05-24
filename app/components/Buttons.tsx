@@ -1,8 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { UserIcon } from "@heroicons/react/24/solid";
-import { ArrowUpOnSquareIcon } from "@heroicons/react/24/solid";
+import { ArrowUpOnSquareIcon, UserIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
-import { To } from "@remix-run/router";
 import type { ReactNode } from "react";
 
 export function LightButton(props: {
@@ -41,7 +39,7 @@ export function DarkButtonLink(props: { children: ReactNode; to: string }) {
   return (
     <Link
       to={props.to}
-      className="w-full max-w-xs rounded-full bg-slate-900 py-2 text-center font-bold text-pink-500"
+      className="w-full max-w-xs rounded-full bg-slate-900 px-8 py-2 text-center font-bold text-pink-500"
     >
       {props.children}
     </Link>

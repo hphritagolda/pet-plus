@@ -1,7 +1,8 @@
 import { DarkButtonLink, LightButton } from "@/components/Buttons";
 import { getCurrentUser } from "@/models/Auth";
 import User from "@/models/Users";
-import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import type { ReactNode } from "react";
 

@@ -8,7 +8,8 @@ import {
 import { getCurrentUser } from "@/models/Auth";
 import Pet from "@/models/Pets";
 import dbConnect from "@/mongoose.server";
-import { LoaderArgs, json, redirect } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { NavLink, Outlet, useLoaderData } from "@remix-run/react";
 
 export async function loader({ params, request }: LoaderArgs) {

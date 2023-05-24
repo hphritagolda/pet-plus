@@ -1,5 +1,5 @@
 import petPlus from "@/assets/petplus.svg";
-import { LightButton } from "@/components/Buttons";
+import { DarkButtonLink, LightButton } from "@/components/Buttons";
 import { commitSession, validateUser } from "@/models/Auth";
 import User from "@/models/Users";
 import type { ActionArgs } from "@remix-run/node";
@@ -127,8 +127,9 @@ export default function LoginRoute() {
             required
           />
 
-          <div className="mx-auto mb-4 mt-6">
+          <div className="mx-auto mb-4 mt-6 flex flex-col gap-2">
             <LightButton type="submit">Create Account</LightButton>
+            <DarkButtonLink to="/signin">Sign In</DarkButtonLink>
           </div>
         </Form>
       </div>

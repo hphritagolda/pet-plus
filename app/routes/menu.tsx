@@ -33,7 +33,6 @@ export async function loader({ request }: LoaderArgs) {
   if (!user) {
     return redirect("/signin");
   }
-
   return json({ user: user.toJSON() });
 }
 

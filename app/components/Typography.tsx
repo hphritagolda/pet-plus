@@ -27,3 +27,11 @@ export function PetDescription(props: { children: ReactNode }) {
     <h6 className=" py-1 text-base font-medium text-white">{props.children}</h6>
   );
 }
+
+export function Title(props: { children: ReactNode }) {
+  return (
+    <h1 className="text-center text-3xl font-bold text-pink-500">
+      {props.children}
+    </h1>
+  );
+}
