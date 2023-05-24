@@ -1,13 +1,15 @@
-import {
-  DarkButtonLink,
-  LightButton,
-  UploadButton,
-} from "@/components/Buttons";
+import { DarkButtonLink, LightButton, UploadInput } from "@/components/Buttons";
 import { PetplusLogo } from "@/components/PetplusLogo";
+import { getImageBase64 } from "@/image";
 import { commitSession, validateUser } from "@/models/Auth";
 import User from "@/models/Users";
 import type { ActionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import {
+  unstable_createMemoryUploadHandler as createMemoryUploadHandler,
+  json,
+  unstable_parseMultipartFormData as parseMultipartFormData,
+  redirect,
+} from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import type { ReactNode } from "react";
 
@@ -28,20 +30,25 @@ function Subtitle(props: { children: ReactNode }) {
 }
 
 export async function action({ request }: ActionArgs) {
-  const formData = await request.formData();
+  const uploadHandler = createMemoryUploadHandler({
+    maxPartSize: 2_000_000,
+  });
+  const formData = await parseMultipartFormData(request, uploadHandler);
 
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
   const email = formData.get("email");
   const password = formData.get("password");
   const confirmPassword = formData.get("confirmPassword");
+  const profilePhoto = formData.get("profilePhoto");
 
   if (
     typeof firstName !== "string" ||
     typeof lastName !== "string" ||
     typeof email !== "string" ||
     typeof password !== "string" ||
-    typeof password !== "string"
+    typeof password !== "string" ||
+    !(profilePhoto instanceof File)
   ) {
     return json({ error: "Must submit details" });
   }
@@ -50,12 +57,20 @@ export async function action({ request }: ActionArgs) {
     return json({ error: "Password must match" });
   }
 
+  const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+  if (!validImageTypes.includes(profilePhoto.type)) {
+    return json({ error: "Profile image must be jpeg, png, or gif" });
+  }
+
+  const imageBase64 = await getImageBase64(profilePhoto);
+
   const newUser = new User({
     firstName: firstName,
     lastName: lastName,
     email: email,
     accessLevel: 0,
     password: password,
+    imageBase64: imageBase64,
   });
   await newUser.save();
 
@@ -86,10 +101,14 @@ export default function LoginRoute() {
       <div className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-lg bg-grey-500 py-5">
         <div className="flex items-center"></div>
         <div className="mb-2 mt-2 gap-4">
-          <UploadButton>Upload Photo</UploadButton>
+          <UploadInput />
         </div>
         <Subtitle>New Account</Subtitle>
-        <Form method="post" className="flex flex-col gap-3 px-3">
+        <Form
+          method="post"
+          encType="multipart/form-data"
+          className="flex flex-col gap-3 px-3 "
+        >
           <div className="flex flex-row gap-3">
             <input
               type="text"

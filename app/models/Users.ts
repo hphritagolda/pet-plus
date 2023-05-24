@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    imageBase64: {
+      type: String,
+      required: false,
+    },
     completedTour: {
       type: Boolean,
       required: false,

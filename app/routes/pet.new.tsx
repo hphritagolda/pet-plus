@@ -2,13 +2,13 @@ import {
   ExitLink,
   LightButton,
   ProfileLink,
-  UploadButton,
+  UploadInput,
 } from "@/components/Buttons";
 import { getCurrentUser } from "@/models/Auth";
 import Pet from "@/models/Pets";
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 import { generatePath } from "@remix-run/router";
 import type { ReactNode } from "react";
 
@@ -18,6 +18,16 @@ function Subtitle(props: { children: ReactNode }) {
       {props.children}
     </h2>
   );
+}
+
+export async function loader({ request }: LoaderArgs) {
+  const user = await getCurrentUser(request);
+
+  if (!user) {
+    throw redirect("/signin");
+  }
+
+  return json({ user: user.toJSON() });
 }
 
 export async function action({ request }: ActionArgs) {
@@ -69,14 +79,15 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function NewPetPage() {
+  const { user } = useLoaderData<typeof loader>();
   return (
     <div className="mt-20 px-8">
       <div className="fixed left-8 right-8 top-8 flex justify-between">
         <ExitLink to="/" />
-        <ProfileLink to="/menu"></ProfileLink>
+        <ProfileLink to="/menu" imageBase64={user.imageBase64}></ProfileLink>
       </div>
       <div className="flex h-64 items-center justify-center ">
-        <UploadButton>Upload Photo</UploadButton>
+        <UploadInput />
       </div>
       <div className="absolute inset-x-0 bottom-0 mx-auto max-w-lg gap-4 rounded-lg bg-grey-500 py-5">
         <Subtitle>New Pet Details</Subtitle>
