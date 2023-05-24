@@ -1,5 +1,9 @@
-import petPlus from "@/assets/petplus.svg";
-import { DarkButtonLink, LightButton } from "@/components/Buttons";
+import {
+  DarkButtonLink,
+  LightButton,
+  UploadButton,
+} from "@/components/Buttons";
+import { PetplusLogo } from "@/components/PetplusLogo";
 import { commitSession, validateUser } from "@/models/Auth";
 import User from "@/models/Users";
 import type { ActionArgs } from "@remix-run/node";
@@ -9,7 +13,7 @@ import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
   return (
-    <h1 className="text-center text-5xl font-bold text-emerald-600">
+    <h1 className="text-center text-5xl font-bold text-pink-500">
       {props.children}
     </h1>
   );
@@ -74,16 +78,17 @@ export async function action({ request }: ActionArgs) {
 
 export default function LoginRoute() {
   return (
-    <div className="mt-20 px-8">
+    <div className="my-8 px-8">
       <div className="mb-4 flex flex-col items-center gap-3">
-        <img src={petPlus} alt="pet plus" width={100} height={100} />
+        <PetplusLogo className="h-28 w-28 text-pink-500" />
         <Title>PetPlus</Title>
       </div>
       <div className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-lg bg-grey-500 py-5">
-        <div className="flex h-24 w-24 items-center rounded-full bg-cyan-100"></div>
-
+        <div className="flex items-center"></div>
+        <div className="mb-2 mt-2 gap-4">
+          <UploadButton>Upload Photo</UploadButton>
+        </div>
         <Subtitle>New Account</Subtitle>
-
         <Form method="post" className="flex flex-col gap-3 px-3">
           <div className="flex flex-row gap-3">
             <input
