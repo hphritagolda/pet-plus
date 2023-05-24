@@ -15,7 +15,6 @@ import {
 } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import type { ReactNode } from "react";
-import sharp from "sharp";
 
 function Title(props: { children: ReactNode }) {
   return (
@@ -66,14 +65,15 @@ export async function action({ request }: ActionArgs) {
     return json({ error: "Profile image must be jpeg, png, or gif" });
   }
 
+  // import here due to weird remix stuff
+  const { default: sharp } = await import("sharp");
+
   const resizedImageBuf = await sharp(await profilePhoto.arrayBuffer())
     .resize(64, 64)
     .toBuffer();
 
-  // const text = await profilePhoto.text();
-
   return json({
-    data: resizedImageBuf.toString("base64"),
+    data: `data:image/png;base64,${resizedImageBuf.toString("base64")}`,
   });
 
   const newUser = new User({
@@ -108,6 +108,7 @@ export default function LoginRoute() {
   console.log(data);
   return (
     <div className="my-8 px-8">
+      {data?.data && <img src={data.data} />}
       <div className="mb-4 flex flex-col items-center gap-3">
         <PetplusLogo className="h-28 w-28 text-pink-500" />
         <Title>PetPlus</Title>
