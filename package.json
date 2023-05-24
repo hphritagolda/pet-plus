@@ -18,7 +18,9 @@
     "mongoose": "^7.2.0",
     "mongoose-type-email": "^1.1.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-joyride": "^2.5.4",
+    "react-use": "^17.4.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.16.1",

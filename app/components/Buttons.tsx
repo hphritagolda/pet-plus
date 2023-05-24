@@ -64,6 +64,7 @@ export function ProfileLink(props: { to: string }) {
     <Link
       className="inline-flex items-center justify-center rounded-full bg-pink-500 p-2 text-blue-500 ring-offset-4 ring-offset-blue-500 hover:bg-blue-500 hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
       to={props.to}
+      id="profile"
     >
       <span className="sr-only"></span>
 

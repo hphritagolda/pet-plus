@@ -67,7 +67,7 @@ export async function getCurrentUser(request: Request) {
 
   const user = await User.findById(
     userId,
-    "firstName lastName email accessLevel"
+    "firstName lastName email accessLevel completedTour"
   );
 
   return user;

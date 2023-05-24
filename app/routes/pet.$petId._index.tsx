@@ -8,6 +8,7 @@ import type { ActionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 
+//Delete Pet profile
 export async function action({ request, params }: ActionArgs) {
   const user = await getCurrentUser(request);
 
