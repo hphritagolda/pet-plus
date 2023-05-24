@@ -35,16 +35,16 @@ export async function loader({ params, request }: LoaderArgs) {
     redirect("/");
   }
 
-  return json({ pet: pet.toJSON() });
+  return json({ pet: pet.toJSON(), user: user.toJSON() });
 }
 
 export default function PetPage() {
-  const { pet } = useLoaderData<typeof loader>();
+  const { pet, user } = useLoaderData<typeof loader>();
   return (
     <div className="">
       <div className="fixed inset-x-8 top-8 z-10 flex justify-between md:right-[30rem]">
         <ExitLink to="/" />
-        <ProfileLink to="/menu"></ProfileLink>
+        <ProfileLink to="/menu" imageBase64={user.imageBase64}></ProfileLink>
       </div>
       <div className="fixed inset-0 flex flex-col flex-nowrap md:flex-row">
         <div className="relative -mb-4 h-64 md:-mr-4 md:mb-0 md:h-full md:flex-1">

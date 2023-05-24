@@ -1,9 +1,6 @@
-import {
-  DarkButtonLink,
-  LightButton,
-  UploadButton,
-} from "@/components/Buttons";
+import { DarkButtonLink, LightButton, UploadInput } from "@/components/Buttons";
 import { PetplusLogo } from "@/components/PetplusLogo";
+import { getImageBase64 } from "@/image";
 import { commitSession, validateUser } from "@/models/Auth";
 import User from "@/models/Users";
 import type { ActionArgs } from "@remix-run/node";
@@ -13,7 +10,7 @@ import {
   unstable_parseMultipartFormData as parseMultipartFormData,
   redirect,
 } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
@@ -65,16 +62,7 @@ export async function action({ request }: ActionArgs) {
     return json({ error: "Profile image must be jpeg, png, or gif" });
   }
 
-  // import here due to weird remix stuff
-  const { default: sharp } = await import("sharp");
-
-  const resizedImageBuf = await sharp(await profilePhoto.arrayBuffer())
-    .resize(64, 64)
-    .toBuffer();
-
-  return json({
-    data: `data:image/png;base64,${resizedImageBuf.toString("base64")}`,
-  });
+  const imageBase64 = await getImageBase64(profilePhoto);
 
   const newUser = new User({
     firstName: firstName,
@@ -82,6 +70,7 @@ export async function action({ request }: ActionArgs) {
     email: email,
     accessLevel: 0,
     password: password,
+    imageBase64: imageBase64,
   });
   await newUser.save();
 
@@ -103,12 +92,8 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function LoginRoute() {
-  const data = useActionData<typeof action>();
-
-  console.log(data);
   return (
     <div className="my-8 px-8">
-      {data?.data && <img src={data.data} />}
       <div className="mb-4 flex flex-col items-center gap-3">
         <PetplusLogo className="h-28 w-28 text-pink-500" />
         <Title>PetPlus</Title>
@@ -116,7 +101,7 @@ export default function LoginRoute() {
       <div className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-lg bg-grey-500 py-5">
         <div className="flex items-center"></div>
         <div className="mb-2 mt-2 gap-4">
-          <UploadButton>Upload Photo</UploadButton>
+          <UploadInput />
         </div>
         <Subtitle>New Account</Subtitle>
         <Form
@@ -165,8 +150,6 @@ export default function LoginRoute() {
             name="confirmPassword"
             required
           />
-
-          <input type="file" name="profilePhoto" itemType="image/*"></input>
 
           <div className="mx-auto mb-4 mt-6 flex flex-col gap-2">
             <LightButton type="submit">Create Account</LightButton>

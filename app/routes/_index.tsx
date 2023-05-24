@@ -54,7 +54,10 @@ export default function LoginRoute() {
           <div className="mb-7 flex flex-row items-center gap-16" id="home">
             <PetplusLogo className="h-12 w-12 text-pink-500"></PetplusLogo>
             <Title>PetPlus</Title>
-            <ProfileLink to="/menu"></ProfileLink>
+            <ProfileLink
+              to="/menu"
+              imageBase64={user.imageBase64}
+            ></ProfileLink>
           </div>
           <Subtitle>Welcome, {user.firstName}!</Subtitle>
           <div className="mx-auto grid w-full max-w-lg grid-cols-[repeat(auto-fill,minmax(8rem,1fr))] justify-center justify-items-center gap-2 text-center">

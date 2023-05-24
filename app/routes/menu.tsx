@@ -1,15 +1,10 @@
 import { DeleteButton, ExitLink, LightButtonLink } from "@/components/Buttons";
+import { UserProfileImage } from "@/components/UserProfileImage";
 import { getCurrentUser, logoutSession } from "@/models/Auth";
-import { UserIcon } from "@heroicons/react/24/solid";
-import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import type { ReactNode } from "react";
-
-function UserProfileIcon(props: { children: ReactNode }) {
-  return (
-    <UserIcon className="inline-flex h-28 w-28 items-center justify-center rounded-full bg-pink-500 p-2 text-blue-500" />
-  );
-}
 
 function UserNameTitle(props: { children: ReactNode }) {
   return (
@@ -51,7 +46,7 @@ export default function UserProfile() {
         <ExitLink to=".." />
       </div>
       <div className="flex items-center justify-center">
-        <UserProfileIcon>User Profile</UserProfileIcon>
+        <UserProfileImage imageBase64={user.imageBase64} alt={user.firstName} />
       </div>
       <div className="mt-4 gap-2 text-center">
         <UserNameTitle>
@@ -62,7 +57,7 @@ export default function UserProfile() {
       <div className="mx-auto mt-10 flex w-40 flex-col items-center gap-2">
         <LightButtonLink to="/profile/edit">Edit Profile</LightButtonLink>
         <Form method="post">
-          <DeleteButton>Sign Out</DeleteButton>
+          <DeleteButton type="submit">Sign Out</DeleteButton>
         </Form>
       </div>
     </div>
