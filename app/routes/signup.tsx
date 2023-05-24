@@ -15,6 +15,7 @@ import {
 } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import type { ReactNode } from "react";
+import sharp from "sharp";
 
 function Title(props: { children: ReactNode }) {
   return (
@@ -43,20 +44,15 @@ export async function action({ request }: ActionArgs) {
   const email = formData.get("email");
   const password = formData.get("password");
   const confirmPassword = formData.get("confirmPassword");
-  const file = formData.get("file");
-
-  if (file instanceof File) {
-    console.log(file.size);
-    return { size: file.size };
-  }
-  return {};
+  const profilePhoto = formData.get("profilePhoto");
 
   if (
     typeof firstName !== "string" ||
     typeof lastName !== "string" ||
     typeof email !== "string" ||
     typeof password !== "string" ||
-    typeof password !== "string"
+    typeof password !== "string" ||
+    !(profilePhoto instanceof File)
   ) {
     return json({ error: "Must submit details" });
   }
@@ -64,6 +60,19 @@ export async function action({ request }: ActionArgs) {
   if (password !== confirmPassword) {
     return json({ error: "Password must match" });
   }
+
+  const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+  if (!validImageTypes.includes(profilePhoto.type)) {
+    return json({ error: "Profile image must be jpeg, png, or gif" });
+  }
+
+  const resizedImageBuf = await sharp(await profilePhoto.text())
+    .resize(64, 64)
+    .toBuffer();
+
+  return json({
+    data: `data:image/png;base64,${resizedImageBuf.toString("base64")}`,
+  });
 
   const newUser = new User({
     firstName: firstName,
@@ -154,7 +163,7 @@ export default function LoginRoute() {
             required
           />
 
-          <input type="file" name="file"></input>
+          <input type="file" name="profilePhoto" itemType="image/*"></input>
 
           <div className="mx-auto mb-4 mt-6 flex flex-col gap-2">
             <LightButton type="submit">Create Account</LightButton>
