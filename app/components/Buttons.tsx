@@ -85,9 +85,15 @@ export function UploadButton(props: { children: ReactNode }) {
   );
 }
 
-export function DeleteButton(props: { children: ReactNode }) {
+export function DeleteButton(props: {
+  children: ReactNode;
+  type: "button" | "submit" | "reset" | undefined;
+}) {
   return (
-    <button className="w-full max-w-xs gap-6 rounded-full bg-yellow-200 px-11 py-2 text-center font-bold text-slate-900">
+    <button
+      type="submit"
+      className="w-full max-w-xs gap-6 rounded-full bg-yellow-200 px-11 py-2 text-center font-bold text-slate-900"
+    >
       {props.children}
     </button>
   );
