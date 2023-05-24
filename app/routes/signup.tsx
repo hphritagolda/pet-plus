@@ -31,7 +31,7 @@ function Subtitle(props: { children: ReactNode }) {
 
 export async function action({ request }: ActionArgs) {
   const uploadHandler = createMemoryUploadHandler({
-    maxPartSize: 500_000,
+    maxPartSize: 2_000_000,
   });
   const formData = await parseMultipartFormData(request, uploadHandler);
 
