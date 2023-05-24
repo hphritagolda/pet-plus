@@ -90,8 +90,8 @@ export function Tour() {
     }
   };
 
-  //   const run = fetcher.data.completed === false;
-  const run = true;
+  const run = fetcher.data.completed === false;
+  //   const run = true;
 
   return (
     <Joyride callback={handleCallback} continuous run={run} steps={steps} />
