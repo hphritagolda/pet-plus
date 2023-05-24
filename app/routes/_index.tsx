@@ -57,7 +57,7 @@ export default function LoginRoute() {
             <ProfileLink to="/menu"></ProfileLink>
           </div>
           <Subtitle>Welcome, {user.firstName}!</Subtitle>
-          <div className="mx-auto grid w-full max-w-lg grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] justify-items-center gap-3 text-center">
+          <div className="mx-auto grid w-full max-w-lg grid-cols-[repeat(auto-fill,minmax(8rem,1fr))] justify-center justify-items-center gap-2 text-center">
             {pets.map((pet) => {
               return (
                 <Link
