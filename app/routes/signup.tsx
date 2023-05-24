@@ -66,7 +66,7 @@ export async function action({ request }: ActionArgs) {
     return json({ error: "Profile image must be jpeg, png, or gif" });
   }
 
-  const resizedImageBuf = await sharp(await profilePhoto.text())
+  const resizedImageBuf = await sharp(await profilePhoto.arrayBuffer())
     .resize(64, 64)
     .toBuffer();
 
