@@ -7,8 +7,13 @@ import { PetplusLogo } from "@/components/PetplusLogo";
 import { commitSession, validateUser } from "@/models/Auth";
 import User from "@/models/Users";
 import type { ActionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import {
+  unstable_createMemoryUploadHandler as createMemoryUploadHandler,
+  json,
+  unstable_parseMultipartFormData as parseMultipartFormData,
+  redirect,
+} from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
 import type { ReactNode } from "react";
 
 function Title(props: { children: ReactNode }) {
@@ -28,13 +33,23 @@ function Subtitle(props: { children: ReactNode }) {
 }
 
 export async function action({ request }: ActionArgs) {
-  const formData = await request.formData();
+  const uploadHandler = createMemoryUploadHandler({
+    maxPartSize: 500_000,
+  });
+  const formData = await parseMultipartFormData(request, uploadHandler);
 
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
   const email = formData.get("email");
   const password = formData.get("password");
   const confirmPassword = formData.get("confirmPassword");
+  const file = formData.get("file");
+
+  if (file instanceof File) {
+    console.log(file.size);
+    return { size: file.size };
+  }
+  return {};
 
   if (
     typeof firstName !== "string" ||
@@ -77,6 +92,9 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function LoginRoute() {
+  const data = useActionData<typeof action>();
+
+  console.log(data);
   return (
     <div className="my-8 px-8">
       <div className="mb-4 flex flex-col items-center gap-3">
@@ -89,7 +107,11 @@ export default function LoginRoute() {
           <UploadButton>Upload Photo</UploadButton>
         </div>
         <Subtitle>New Account</Subtitle>
-        <Form method="post" className="flex flex-col gap-3 px-3">
+        <Form
+          method="post"
+          encType="multipart/form-data"
+          className="flex flex-col gap-3 px-3 "
+        >
           <div className="flex flex-row gap-3">
             <input
               type="text"
@@ -131,6 +153,8 @@ export default function LoginRoute() {
             name="confirmPassword"
             required
           />
+
+          <input type="file" name="file"></input>
 
           <div className="mx-auto mb-4 mt-6 flex flex-col gap-2">
             <LightButton type="submit">Create Account</LightButton>
